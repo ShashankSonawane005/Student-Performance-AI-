@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Student Performance AI</title>
+<style>
+:root{--bg:#f6f8fb;--surf:#fff;--ink:#0f1c2e;--mut:#5b6b80;--line:#e3e8ef;--pri:#1f4e79;--pri2:#2f6fb5;--acc:#14b8a6;--low:#16a34a;--med:#d97706;--high:#dc2626;--chip:#eaf1f9;--code:#0b1626;--shadow:0 1px 2px rgba(15,28,46,.06),0 8px 24px rgba(15,28,46,.06)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0b1220;--surf:#111a2b;--ink:#e8eef7;--mut:#93a4bb;--line:#22304a;--pri:#6aa8e8;--pri2:#5b9be0;--chip:#16243b;--code:#070d18;--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3)}}
+:root[data-theme=dark]{--bg:#0b1220;--surf:#111a2b;--ink:#e8eef7;--mut:#93a4bb;--line:#22304a;--pri:#6aa8e8;--pri2:#5b9be0;--chip:#16243b;--code:#070d18;--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 Inter,"Segoe UI",system-ui,-apple-system,Roboto,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:22px;height:60px}
+.logo{font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+.logo i{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--pri),var(--acc));display:inline-block}
+nav a{color:var(--mut);text-decoration:none;font-weight:500;font-size:14px}nav a:hover{color:var(--ink)}
+nav .sp{flex:1}
+@media(max-width:760px){nav .links{display:none}}
+.hero{padding:76px 0 56px;background:radial-gradient(900px 400px at 85% -10%,color-mix(in srgb,var(--acc) 22%,transparent),transparent),radial-gradient(800px 380px at 0% 0%,color-mix(in srgb,var(--pri2) 20%,transparent),transparent)}
+.eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pri);background:var(--chip);padding:5px 12px;border-radius:99px}
+h1{font-size:clamp(34px,5.4vw,58px);line-height:1.06;letter-spacing:-.035em;margin:18px 0 16px;max-width:780px}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--pri2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:18px;color:var(--mut);max-width:640px;margin:0 0 28px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:11px 20px;border-radius:10px;font-weight:600;text-decoration:none;font-size:15px;border:1px solid var(--line);color:var(--ink);background:var(--surf)}
+.btn.p{background:var(--pri);color:#fff;border-color:var(--pri)}
+:root[data-theme=dark] .btn.p,@media(prefers-color-scheme:dark){}
+.by{margin:-8px 0 22px;color:var(--mut);font-size:15px}.by b{color:var(--ink)}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;align-items:end;margin-bottom:16px}
+.form label{display:block;font-size:12px;font-weight:600;color:var(--mut);margin-bottom:4px}
+.form input,.form select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.form .btn{cursor:pointer;border:0}
+.msg{font-size:13px;margin:-6px 0 12px;min-height:18px}.msg.err{color:var(--high)}.msg.ok{color:var(--low)}
+.del{border:0;background:none;color:var(--high);cursor:pointer;font:inherit;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:44px}
+.stat{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+.stat b{display:block;font-size:30px;letter-spacing:-.03em;line-height:1.1}.stat span{color:var(--mut);font-size:13px}
+section{padding:64px 0}
+section h2{font-size:clamp(26px,3.4vw,36px);letter-spacing:-.03em;margin:0 0 8px}
+.sub{color:var(--mut);max-width:680px;margin:0 0 30px}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.g3 .card h3{margin:10px 0 6px;font-size:17px}.g3 .card p{margin:0;color:var(--mut);font-size:14px}
+.ic{width:38px;height:38px;border-radius:10px;background:var(--chip);color:var(--pri);display:grid;place-items:center;font-weight:800}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.tabs button{border:1px solid var(--line);background:var(--surf);color:var(--mut);padding:8px 16px;border-radius:99px;font:inherit;font-weight:600;cursor:pointer}
+.tabs button.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.pane{display:none}.pane.on{display:block}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--surf)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{background:var(--chip);color:var(--pri);text-align:left;padding:10px 14px;font-size:12px;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+td{padding:10px 14px;border-top:1px solid var(--line);white-space:nowrap}
+tbody tr:hover{background:var(--chip)}
+.pill{padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700;color:#fff}
+.Low{background:var(--low)}.Medium{background:var(--med)}.High{background:var(--high)}
+.g{display:inline-block;min-width:24px;text-align:center;padding:1px 6px;border-radius:6px;background:var(--chip);color:var(--pri);font-weight:700}
+.dash{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}@media(max-width:900px){.dash{grid-template-columns:1fr}}
+.bar{display:grid;grid-template-columns:130px 1fr 54px;gap:10px;align-items:center;margin:9px 0;font-size:13px}
+.bar .t{height:12px;background:var(--chip);border-radius:99px;overflow:hidden;position:relative}
+.bar .f{height:100%;border-radius:99px;transition:width .6s}
+.bar .n{font-weight:700;text-align:right}
+.risk{display:flex;gap:10px;margin-top:6px}.risk div{flex:1;text-align:center;padding:14px 6px;border-radius:12px;background:var(--chip)}.risk b{font-size:28px;display:block}
+.sl{margin:14px 0}.sl label{display:flex;justify-content:space-between;font-weight:600;font-size:14px}.sl input{width:100%;accent-color:var(--pri2)}
+.res{text-align:center;padding:18px;border-radius:14px;background:var(--chip);margin-top:12px}.res b{font-size:48px;letter-spacing:-.04em;line-height:1}
+.erd{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.ent{border:1px solid var(--line);border-radius:12px;background:var(--surf);overflow:hidden;box-shadow:var(--shadow)}
+.ent h4{margin:0;padding:10px 14px;background:var(--pri);color:#fff;font-size:14px;letter-spacing:.03em}
+:root[data-theme=dark] .ent h4{color:#0b1220}
+.ent ul{list-style:none;margin:0;padding:6px 0;font:13px/1.9 ui-monospace,Menlo,Consolas,monospace}
+.ent li{padding:0 14px;display:flex;justify-content:space-between;gap:8px}.ent li span{color:var(--mut);font-size:11px}
+.k{color:var(--acc);font-weight:700}
+pre{background:var(--code);color:#cfe3f7;border-radius:14px;padding:20px;overflow:auto;font:13px/1.65 ui-monospace,Menlo,Consolas,monospace;margin:0}
+pre .c{color:#6f87a6}pre .h{color:#5eead4}pre .o{color:#86efac}
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.steps div{counter-increment:s;background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:18px}
+.steps div:before{content:counter(s);display:grid;place-items:center;width:28px;height:28px;border-radius:99px;background:var(--pri);color:#fff;font-weight:700;margin-bottom:10px}
+:root[data-theme=dark] .steps div:before{color:#0b1220}
+.steps b{display:block}.steps span{color:var(--mut);font-size:13.5px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chips span{background:var(--chip);color:var(--pri);padding:6px 14px;border-radius:99px;font-weight:600;font-size:13px}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--mut);font-size:13px}
+.tg{background:none;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer;font:inherit}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><div class="logo"><i></i>Student Performance AI</div><div class="links" style="display:flex;gap:22px"><a href="#features">Features</a><a href="#demo">Live demo</a><a href="#schema">Database</a><a href="#model">AI model</a><a href="#output">Output</a></div><div class="sp"></div><button class="tg" id="tg" aria-label="Toggle theme">Theme</button></div></nav>
+
+<header class="hero"><div class="wrap">
+<span class="eyebrow">DBMS Mini-Project · TAE-2</span>
+<h1>Predict student results before they happen, with <em>SQL and a tiny AI</em>.</h1>
+<p class="lead">A relational database of students, courses and marks feeds a ridge-regression model written in pure Python. It forecasts each student's final score and flags Low, Medium or High academic risk.</p>
+<p class="by">Developed by <b>Shashank Sonawane</b></p>
+<div class="cta"><a class="btn p" href="#demo">Open live demo</a><a class="btn" href="#schema">View database design</a></div>
+<div class="stats" id="stats"></div>
+</div></header>
+
+<section id="features"><div class="wrap">
+<h2>Built on solid database fundamentals</h2><p class="sub">Every requirement of a DBMS project, in one cohesive system.</p>
+<div class="g3">
+<div class="card"><div class="ic">4</div><h3>Normalised schema</h3><p>students, courses, marks and predictions, with primary keys and UNIQUE and CHECK constraints.</p></div>
+<div class="card"><div class="ic">FK</div><h3>Cascade integrity</h3><p>Foreign keys with ON DELETE CASCADE: remove a student and their marks and predictions go too.</p></div>
+<div class="card"><div class="ic">V</div><h3>View and trigger</h3><p><code>v_student_performance</code> aggregates per student. <code>trg_marks_grade</code> sets total and grade on insert.</p></div>
+<div class="card"><div class="ic">⋈</div><h3>Four-table JOIN</h3><p>One report joins predictions, students, marks and courses in a single SELECT.</p></div>
+<div class="card"><div class="ic">AI</div><h3>Pure-Python ML</h3><p>Ridge regression solved by Gauss-Jordan elimination. No NumPy or scikit-learn.</p></div>
+<div class="card"><div class="ic">CRUD</div><h3>Full CRUD GUI</h3><p>Insert, update, delete and live search on every table, with friendly constraint errors.</p></div>
+</div></div></section>
+
+<section id="demo" style="background:var(--surf);border-block:1px solid var(--line)"><div class="wrap">
+<h2>Live demo</h2><p class="sub">The demo dataset (8 students, 5 courses, 38 marks) and the weights learned by the model, running in your browser.</p>
+<div class="tabs" id="tabs"><button class="on" data-p="p1">Dashboard</button><button data-p="p2">Performance report</button><button data-p="p3">Students</button><button data-p="p4">Marks</button><button data-p="p5">What-if predictor</button></div>
+
+<div class="pane on" id="p1"><div class="dash">
+<div class="card"><h3 style="margin:0 0 8px">Predicted final score by student</h3><div id="bars"></div></div>
+<div class="card"><h3 style="margin:0 0 8px">Risk distribution</h3><div class="risk" id="risk"></div><p style="color:var(--mut);font-size:13px;margin:14px 0 0">Risk is High when score &lt; 50 or attendance &lt; 60, Medium when score &lt; 65 or attendance &lt; 75, otherwise Low.</p></div>
+</div></div>
+
+<div class="pane" id="p2"><div class="tw"><table id="rep"></table></div></div>
+<div class="pane" id="p3">
+<form class="form" id="af" autocomplete="off">
+<div><label>Student name *</label><input id="fn" placeholder="e.g. Shashank Sonawane" required></div>
+<div><label>Roll no *</label><input id="fr" placeholder="1RV21CS009" required></div>
+<div><label>Branch</label><select id="fb"><option>CSE</option><option>ISE</option><option>ECE</option><option>ME</option></select></div>
+<div><label>Semester</label><input id="fs" type="number" min="1" max="8" value="5"></div>
+<div><label>Attendance %</label><input id="fa" type="number" min="0" max="100" step="0.5" value="80"></div>
+<div><label>Study hrs/week</label><input id="fh" type="number" min="0" step="0.5" value="8"></div>
+<div><label>Avg internal (of 50)</label><input id="fi" type="number" min="0" max="50" step="0.5" value="34"></div>
+<div><button class="btn p" type="submit">+ Add student</button></div>
+</form>
+<div class="msg" id="fm"></div>
+<div class="tw"><table id="stu"></table></div></div>
+<div class="pane" id="p4"><div class="tw" style="max-height:480px"><table id="mk"></table></div></div>
+
+<div class="pane" id="p5"><div class="dash">
+<div class="card"><h3 style="margin:0">Student profile</h3>
+<div class="sl"><label>Attendance <span id="va">80%</span></label><input type="range" id="ia" min="30" max="100" value="80"></div>
+<div class="sl"><label>Study hours / week <span id="vh">8</span></label><input type="range" id="ih" min="0" max="20" step=".5" value="8"></div>
+<div class="sl"><label>Avg internal marks (of 50) <span id="vi">34</span></label><input type="range" id="ii" min="0" max="50" step=".5" value="34"></div></div>
+<div class="card"><h3 style="margin:0">Model output</h3><div class="res"><span style="color:var(--mut)">Predicted final score</span><br><b id="ps">–</b><br><span class="pill" id="pr">–</span></div>
+<p style="color:var(--mut);font-size:13px;margin:14px 0 0" id="eq"></p></div>
+</div></div>
+</div></section>
+
+<section id="schema"><div class="wrap">
+<h2>Database design</h2><p class="sub">Four related tables, indexed foreign keys, one view and one trigger.</p>
+<div class="erd">
+<div class="ent"><h4>students</h4><ul><li><b class="k">student_id</b><span>PK</span></li><li>name<span>NOT NULL</span></li><li>roll_no<span>UNIQUE</span></li><li>email<span>UNIQUE</span></li><li>branch</li><li>semester</li><li>attendance_pct<span>0–100</span></li><li>study_hours<span>≥ 0</span></li></ul></div>
+<div class="ent"><h4>courses</h4><ul><li><b class="k">course_id</b><span>PK</span></li><li>course_code<span>UNIQUE</span></li><li>course_name</li><li>credits<span>&gt; 0</span></li></ul></div>
+<div class="ent"><h4>marks</h4><ul><li><b class="k">mark_id</b><span>PK</span></li><li>student_id<span>FK → students</span></li><li>course_id<span>FK → courses</span></li><li>internal_marks</li><li>external_marks</li><li>total<span>trigger</span></li><li>grade<span>S…F</span></li></ul></div>
+<div class="ent"><h4>predictions</h4><ul><li><b class="k">prediction_id</b><span>PK</span></li><li>student_id<span>FK → students</span></li><li>attendance_pct</li><li>study_hours</li><li>avg_marks</li><li>predicted_score</li><li>risk_level<span>Low/Med/High</span></li><li>created_on</li></ul></div>
+</div>
+<div style="margin-top:22px"><pre><span class="c">-- one consolidated row per student</span>
+<span class="h">CREATE VIEW</span> v_student_performance <span class="h">AS</span>
+<span class="h">SELECT</span> s.student_id, s.name, s.attendance_pct, s.study_hours,
+       COUNT(m.mark_id) <span class="h">AS</span> subjects, ROUND(AVG(m.internal_marks),2) <span class="h">AS</span> avg_internal,
+       ROUND(AVG(m.total),2) <span class="h">AS</span> avg_total
+<span class="h">FROM</span> students s <span class="h">LEFT JOIN</span> marks m <span class="h">ON</span> m.student_id = s.student_id
+<span class="h">GROUP BY</span> s.student_id;</pre></div>
+</div></section>
+
+<section id="model" style="background:var(--surf);border-block:1px solid var(--line)"><div class="wrap">
+<h2>How the AI works</h2><p class="sub">No external libraries. The model learns from whatever is in the database.</p>
+<div class="steps">
+<div><b>Read</b><span>Query the view for attendance, study hours and average internal marks.</span></div>
+<div><b>Build</b><span>Design matrix [1, attendance, hours, avg internal] for every student.</span></div>
+<div><b>Solve</b><span>Ridge normal equations (λ = 1) solved with Gauss-Jordan elimination.</span></div>
+<div><b>Predict</b><span>Score is clipped to 0–100, then mapped to a risk level.</span></div>
+<div><b>Store</b><span>Results are saved to the predictions table and shown in the JOIN report.</span></div>
+</div>
+<p style="margin-top:22px"><span class="chips"><span>Python 3</span><span>SQLite</span><span>sqlite3</span><span>Tkinter</span><span>Ridge regression</span></span></p>
+</div></section>
+
+<section id="output"><div class="wrap">
+<h2>Program output</h2><p class="sub">Captured from running the project's database and model code on the demo data.</p>
+<pre id="console"></pre>
+</div></section>
+
+<footer><div class="wrap">Developed by Shashank Sonawane · AI-Based Student Performance Tracking System · DBMS Mini-Project (TAE-2) · Python + SQLite + Tkinter</div></footer>
+
+<script>
+const D={"w": [-23.12498099854346, 0.3867357357198386, 0.09645758256095929, 1.6519462419236786], "r2": 0.9984524464119025, "mae": 0.5597468677950639, "students": [{"id": 1, "name": "Aarav Sharma", "roll": "1RV21CS001", "email": "aarav.sharma@example.edu", "branch": "CSE", "sem": 5, "att": 92.5, "hrs": 14.0}, {"id": 2, "name": "Diya Patel", "roll": "1RV21CS002", "email": "diya.patel@example.edu", "branch": "CSE", "sem": 5, "att": 88.0, "hrs": 11.0}, {"id": 3, "name": "Rohan Verma", "roll": "1RV21CS003", "email": "rohan.verma@example.edu", "branch": "ISE", "sem": 5, "att": 64.0, "hrs": 5.0}, {"id": 4, "name": "Ananya Rao", "roll": "1RV21CS004", "email": "ananya.rao@example.edu", "branch": "CSE", "sem": 5, "att": 78.5, "hrs": 9.0}, {"id": 5, "name": "Kabir Nair", "roll": "1RV21CS005", "email": "kabir.nair@example.edu", "branch": "ECE", "sem": 3, "att": 55.0, "hrs": 3.0}, {"id": 6, "name": "Meera Iyer", "roll": "1RV21CS006", "email": "meera.iyer@example.edu", "branch": "ISE", "sem": 3, "att": 95.0, "hrs": 16.0}, {"id": 7, "name": "Aditya Kulkarni", "roll": "1RV21CS007", "email": "aditya.kulkarni@example.edu", "branch": "CSE", "sem": 5, "att": 71.0, "hrs": 7.0}, {"id": 8, "name": "Sneha Deshpande", "roll": "1RV21CS008", "email": "sneha.deshpande@example.edu", "branch": "ECE", "sem": 3, "att": 83.0, "hrs": 10.0}], "courses": [{"id": 1, "code": "CS501", "name": "Database Management Systems", "cr": 4}, {"id": 2, "code": "CS502", "name": "Operating Systems", "cr": 4}, {"id": 3, "code": "CS503", "name": "Design and Analysis of Algorithms", "cr": 4}, {"id": 4, "code": "CS504", "name": "Computer Networks", "cr": 3}, {"id": 5, "code": "CS505", "name": "Machine Learning Fundamentals", "cr": 3}], "marks": [{"sid": 1, "cid": 1, "i": 46.0, "e": 44.0, "t": 90.0, "g": "S"}, {"sid": 1, "cid": 2, "i": 42.0, "e": 40.0, "t": 82.0, "g": "A"}, {"sid": 1, "cid": 3, "i": 44.0, "e": 45.0, "t": 89.0, "g": "A"}, {"sid": 1, "cid": 4, "i": 38.0, "e": 36.0, "t": 74.0, "g": "B"}, {"sid": 1, "cid": 5, "i": 40.0, "e": 42.0, "t": 82.0, "g": "A"}, {"sid": 2, "cid": 1, "i": 44.0, "e": 40.0, "t": 84.0, "g": "A"}, {"sid": 2, "cid": 2, "i": 40.0, "e": 38.0, "t": 78.0, "g": "B"}, {"sid": 2, "cid": 3, "i": 42.0, "e": 41.0, "t": 83.0, "g": "A"}, {"sid": 2, "cid": 4, "i": 36.0, "e": 34.0, "t": 70.0, "g": "B"}, {"sid": 2, "cid": 5, "i": 38.0, "e": 39.0, "t": 77.0, "g": "B"}, {"sid": 3, "cid": 1, "i": 26.0, "e": 18.0, "t": 44.0, "g": "E"}, {"sid": 3, "cid": 2, "i": 24.0, "e": 15.0, "t": 39.0, "g": "F"}, {"sid": 3, "cid": 3, "i": 28.0, "e": 20.0, "t": 48.0, "g": "E"}, {"sid": 3, "cid": 4, "i": 22.0, "e": 14.0, "t": 36.0, "g": "F"}, {"sid": 4, "cid": 1, "i": 36.0, "e": 32.0, "t": 68.0, "g": "C"}, {"sid": 4, "cid": 2, "i": 34.0, "e": 30.0, "t": 64.0, "g": "C"}, {"sid": 4, "cid": 3, "i": 38.0, "e": 35.0, "t": 73.0, "g": "B"}, {"sid": 4, "cid": 4, "i": 32.0, "e": 28.0, "t": 60.0, "g": "C"}, {"sid": 4, "cid": 5, "i": 35.0, "e": 33.0, "t": 68.0, "g": "C"}, {"sid": 5, "cid": 1, "i": 20.0, "e": 12.0, "t": 32.0, "g": "F"}, {"sid": 5, "cid": 2, "i": 22.0, "e": 10.0, "t": 32.0, "g": "F"}, {"sid": 5, "cid": 3, "i": 18.0, "e": 14.0, "t": 32.0, "g": "F"}, {"sid": 5, "cid": 4, "i": 24.0, "e": 16.0, "t": 40.0, "g": "E"}, {"sid": 6, "cid": 1, "i": 48.0, "e": 47.0, "t": 95.0, "g": "S"}, {"sid": 6, "cid": 2, "i": 46.0, "e": 45.0, "t": 91.0, "g": "S"}, {"sid": 6, "cid": 3, "i": 47.0, "e": 46.0, "t": 93.0, "g": "S"}, {"sid": 6, "cid": 4, "i": 44.0, "e": 43.0, "t": 87.0, "g": "A"}, {"sid": 6, "cid": 5, "i": 45.0, "e": 44.0, "t": 89.0, "g": "A"}, {"sid": 7, "cid": 1, "i": 32.0, "e": 26.0, "t": 58.0, "g": "D"}, {"sid": 7, "cid": 2, "i": 30.0, "e": 24.0, "t": 54.0, "g": "D"}, {"sid": 7, "cid": 3, "i": 33.0, "e": 28.0, "t": 61.0, "g": "C"}, {"sid": 7, "cid": 4, "i": 28.0, "e": 22.0, "t": 50.0, "g": "D"}, {"sid": 7, "cid": 5, "i": 31.0, "e": 27.0, "t": 58.0, "g": "D"}, {"sid": 8, "cid": 1, "i": 40.0, "e": 36.0, "t": 76.0, "g": "B"}, {"sid": 8, "cid": 2, "i": 38.0, "e": 34.0, "t": 72.0, "g": "B"}, {"sid": 8, "cid": 3, "i": 41.0, "e": 37.0, "t": 78.0, "g": "B"}, {"sid": 8, "cid": 4, "i": 36.0, "e": 32.0, "t": 68.0, "g": "C"}, {"sid": 8, "cid": 5, "i": 39.0, "e": 35.0, "t": 74.0, "g": "B"}], "view": [{"id": 1, "avgInt": 42.0, "avgTot": 83.4, "lo": 74.0, "hi": 90.0, "n": 5}, {"id": 2, "avgInt": 40.0, "avgTot": 78.4, "lo": 70.0, "hi": 84.0, "n": 5}, {"id": 3, "avgInt": 25.0, "avgTot": 41.75, "lo": 36.0, "hi": 48.0, "n": 4}, {"id": 4, "avgInt": 35.0, "avgTot": 66.6, "lo": 60.0, "hi": 73.0, "n": 5}, {"id": 5, "avgInt": 21.0, "avgTot": 34.0, "lo": 32.0, "hi": 40.0, "n": 4}, {"id": 6, "avgInt": 46.0, "avgTot": 91.0, "lo": 87.0, "hi": 95.0, "n": 5}, {"id": 7, "avgInt": 30.8, "avgTot": 56.2, "lo": 50.0, "hi": 61.0, "n": 5}, {"id": 8, "avgInt": 38.8, "avgTot": 73.6, "lo": 68.0, "hi": 78.0, "n": 5}], "pred": [{"sid": 1, "score": 83.38, "risk": "Low"}, {"sid": 7, "score": 55.89, "risk": "Medium"}, {"sid": 4, "score": 65.92, "risk": "Low"}, {"sid": 2, "score": 78.05, "risk": "Low"}, {"sid": 5, "score": 33.13, "risk": "High"}, {"sid": 6, "score": 91.15, "risk": "Low"}, {"sid": 3, "score": 43.41, "risk": "High"}, {"sid": 8, "score": 74.03, "risk": "Low"}]};
+const $=s=>document.querySelector(s),pad=(s,n)=>String(s).padEnd(n);
+const risk=(s,a)=>s<50||a<60?'High':s<65||a<75?'Medium':'Low';
+const dot=(w,x)=>w.reduce((t,v,i)=>t+v*x[i],0);
+const S=Object.fromEntries(D.students.map(s=>[s.id,s])),C=Object.fromEntries(D.courses.map(c=>[c.id,c]));
+const P=Object.fromEntries(D.pred.map(p=>[p.sid,p])),V=Object.fromEntries(D.view.map(v=>[v.id,v]));
+const col=r=>r==='Low'?'var(--low)':r==='Medium'?'var(--med)':'var(--high)';
+const tb=(h,rows)=>`<thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`).join('')}</tbody>`;
+const pill=r=>`<span class="pill ${r}">${r}</span>`,gr=g=>`<span class="g">${g}</span>`;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function render(){
+$('#stats').innerHTML=[[D.students.length,'Students'],[D.courses.length,'Courses'],[D.marks.length,'Mark records'],[D.r2.toFixed(3),'Model R²'],[D.mae.toFixed(2),'Mean abs. error']].map(a=>`<div class="stat"><b>${a[0]}</b><span>${a[1]}</span></div>`).join('');
+const sorted=[...D.students].sort((a,b)=>P[b.id].score-P[a.id].score);
+$('#bars').innerHTML=sorted.map(s=>`<div class="bar"><span>${esc(s.name)}</span><div class="t"><div class="f" style="width:${P[s.id].score}%;background:${col(P[s.id].risk)}"></div></div><span class="n">${P[s.id].score.toFixed(1)}</span></div>`).join('');
+$('#risk').innerHTML=['Low','Medium','High'].map(r=>`<div><b style="color:${col(r)}">${D.students.filter(s=>P[s.id].risk===r).length}</b>${r}</div>`).join('');
+const rows=D.marks.slice().sort((a,b)=>S[a.sid].roll.localeCompare(S[b.sid].roll)||C[a.cid].code.localeCompare(C[b.cid].code)).map(m=>{const s=S[m.sid];return[s.roll,esc(s.name),C[m.cid].code,m.i,m.e,m.t,gr(m.g),s.att+'%',P[s.id].score.toFixed(2),pill(P[s.id].risk)]});
+D.students.filter(s=>!D.marks.some(m=>m.sid===s.id)).forEach(s=>rows.push([s.roll,esc(s.name),'—','—','—','—','—',s.att+'%',P[s.id].score.toFixed(2),pill(P[s.id].risk)]));
+$('#rep').innerHTML=tb(['Roll no','Student','Course','Internal','External','Total','Grade','Attend.','Predicted','Risk'],rows);
+$('#stu').innerHTML=tb(['ID','Name','Roll no','Branch','Sem','Attendance','Study hrs','Avg internal','Predicted','Risk',''],D.students.map(s=>[s.id,esc(s.name),esc(s.roll),s.branch,s.sem,s.att+'%',s.hrs,V[s.id].avgInt,P[s.id].score.toFixed(1),pill(P[s.id].risk),s.added?`<button class="del" data-id="${s.id}">Delete</button>`:'']));
+$('#mk').innerHTML=tb(['ID','Student','Course','Internal','External','Total','Grade'],D.marks.map((m,i)=>[i+1,esc(S[m.sid].name),C[m.cid].code+' · '+C[m.cid].name,m.i,m.e,m.t,gr(m.g)]));
+}
+const demoN=D.students.length;
+const avgScore=(D.pred.reduce((t,p)=>t+p.score,0)/D.pred.length),nHigh=D.pred.filter(p=>p.risk==='High').length;
+render();
+const fm=(t,c)=>{$('#fm').textContent=t;$('#fm').className='msg '+(c||'')};
+$('#af').onsubmit=e=>{e.preventDefault();
+ const name=$('#fn').value.trim(),roll=$('#fr').value.trim(),att=+$('#fa').value,hrs=+$('#fh').value,int=+$('#fi').value;
+ if(!name||!roll)return fm('Name and roll no are required.','err');
+ if(D.students.some(s=>s.roll.toLowerCase()===roll.toLowerCase()))return fm('UNIQUE constraint failed: roll no '+roll+' already exists.','err');
+ if(att<0||att>100)return fm('CHECK constraint failed: attendance must be 0-100.','err');
+ if(hrs<0||int<0||int>50)return fm('Check the study hours (≥ 0) and internal marks (0-50).','err');
+ const id=Math.max(...D.students.map(s=>s.id))+1,sc=Math.max(0,Math.min(100,dot(D.w,[1,att,hrs,int])));
+ const s={id,name,roll,email:roll.toLowerCase()+'@example.edu',branch:$('#fb').value,sem:+$('#fs').value,att,hrs,added:true};
+ D.students.push(s);S[id]=s;V[id]={id,avgInt:int,avgTot:'–',n:0};
+ const p={sid:id,score:+sc.toFixed(2),risk:risk(sc,att)};D.pred.push(p);P[id]=p;
+ render();$('#af').reset();$('#fs').value=5;$('#fa').value=80;$('#fh').value=8;$('#fi').value=34;
+ fm(name+' added: predicted score '+p.score.toFixed(1)+' ('+p.risk+' risk).','ok')};
+$('#stu').onclick=e=>{const b=e.target.closest('.del');if(!b)return;const id=+b.dataset.id;
+ const i=D.students.findIndex(s=>s.id===id);D.students.splice(i,1);D.pred=D.pred.filter(p=>p.sid!==id);delete S[id];delete P[id];delete V[id];render();fm('Student deleted (their predictions are removed too, like ON DELETE CASCADE).','ok')};
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#tabs button,.pane').forEach(e=>e.classList.remove('on'));b.classList.add('on');$('#'+b.dataset.p).classList.add('on')});
+function whatif(){const a=+$('#ia').value,h=+$('#ih').value,i=+$('#ii').value;$('#va').textContent=a+'%';$('#vh').textContent=h;$('#vi').textContent=i;
+ const sc=Math.max(0,Math.min(100,dot(D.w,[1,a,h,i]))),r=risk(sc,a);$('#ps').textContent=sc.toFixed(1);$('#pr').textContent=r+' risk';$('#pr').className='pill '+r;
+ $('#eq').textContent=`score = ${D.w[0].toFixed(2)} + ${D.w[1].toFixed(3)}·attendance + ${D.w[2].toFixed(3)}·hours + ${D.w[3].toFixed(3)}·internal`}
+['#ia','#ih','#ii'].forEach(s=>$(s).oninput=whatif);whatif();
+const L=[];
+L.push('<span class="h">$ load_demo_data()</span>','<span class="o">Inserted 8 students, 5 courses and 38 marks. AI model retrained.</span>','',
+`<span class="h">$ train_model()</span>`,`<span class="o">samples = ${D.students.length}   R² = ${D.r2.toFixed(4)}   MAE = ${D.mae.toFixed(3)}</span>`,
+`weights  [intercept, attendance, study_hrs, avg_internal] = [${D.w.map(x=>x.toFixed(4)).join(', ')}]`,'',
+'<span class="h">$ SELECT * FROM v_student_performance;</span>',
+'<span class="c">'+pad('name',17)+pad('att%',7)+pad('hrs',6)+pad('subj',6)+pad('avg_int',9)+pad('avg_total',11)+'</span>');
+D.students.forEach(s=>{const v=V[s.id];L.push(pad(s.name,17)+pad(s.att,7)+pad(s.hrs,6)+pad(v.n,6)+pad(v.avgInt,9)+pad(v.avgTot,11))});
+L.push('','<span class="h">$ predict_all()</span>','<span class="c">'+pad('roll_no',13)+pad('name',17)+pad('predicted',11)+'risk</span>');
+D.students.forEach(s=>L.push(pad(s.roll,13)+pad(s.name,17)+pad(P[s.id].score.toFixed(2),11)+P[s.id].risk));
+L.push('',`<span class="o">${D.students.length} predictions stored · ${nHigh} high-risk · class average ${avgScore.toFixed(1)}</span>`);
+$('#console').innerHTML=L.join('\n');
+const root=document.documentElement,tg=$('#tg');
+tg.onclick=()=>{const d=root.dataset.theme==='dark'||(!root.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);root.dataset.theme=d?'light':'dark'};
+</script>
+</body></html>
